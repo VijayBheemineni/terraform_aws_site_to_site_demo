@@ -1,0 +1,4 @@
+.terraform
+*.org
+*.backup
+*.tfstate

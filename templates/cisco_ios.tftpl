@@ -1,0 +1,127 @@
+ios-config-1="crypto isakmp policy 200"
+ios-config-2="  encryption aes 128"
+ios-config-3="  authentication pre-share"
+ios-config-4="  group 2"
+ios-config-5="  lifetime 28800"
+ios-config-6="  hash sha"
+ios-config-7="exit"
+
+ios-config-8="crypto keyring keyring-${vpn_connection_id}-0"
+ios-config-9="  local-address GigabitEthernet1"
+ios-config-10="  pre-shared-key address ${tunnel1_aws_output_ip_address} key ${tunnel1_preshared_key}"
+ios-config-11="exit"
+
+ios-config-12="crypto isakmp profile isakmp-${vpn_connection_id}-0"
+ios-config-13="  local-address GigabitEthernet1"
+ios-config-14="  match identity address ${tunnel1_aws_output_ip_address}"
+ios-config-15="  keyring keyring-${vpn_connection_id}-0"
+ios-config-16="exit"
+
+
+ios-config-17="crypto ipsec transform-set ipsec-prop-${vpn_connection_id}-0 esp-aes 128 esp-sha-hmac"
+ios-config-18="  mode tunnel"
+ios-config-19="exit"
+
+
+ios-config-20="crypto ipsec profile ipsec-${vpn_connection_id}-0"
+ios-config-21="  set pfs group2"
+ios-config-22="  set security-association lifetime seconds 3600"
+ios-config-23="  set transform-set ipsec-prop-${vpn_connection_id}-0"
+ios-config-24="exit"
+
+
+ios-config-25="crypto ipsec df-bit clear"
+ios-config-26="crypto isakmp keepalive 3600"
+ios-config-27="crypto ipsec security-association replay window-size 128"
+ios-config-28="crypto ipsec fragmentation before-encryption"
+
+
+ios-config-29="interface Tunnel1"
+ios-config-30="  ip address ${tunnel1_cgw_inside_ip_address} 255.255.255.252"
+ios-config-31="  ip virtual-reassembly"
+ios-config-32="  tunnel source GigabitEthernet1"
+ios-config-33="  tunnel destination ${tunnel1_aws_output_ip_address}"
+ios-config-34="  tunnel mode ipsec ipv4"
+ios-config-35="  tunnel protection ipsec profile ipsec-${vpn_connection_id}-0"
+ios-config-36="  ip tcp adjust-mss 1379"
+ios-config-37="  no shutdown"
+ios-config-38="exit"
+
+
+ios-config-39="router bgp 65000"
+ios-config-40="  neighbor ${tunnel1_aws_inside_ip_address} remote-as 64512"
+ios-config-41="  neighbor ${tunnel1_aws_inside_ip_address} activate"
+ios-config-42="  neighbor ${tunnel1_aws_inside_ip_address} timers 10 30 30"
+ios-config-43="  address-family ipv4 unicast"
+ios-config-44="    neighbor ${tunnel1_aws_inside_ip_address} remote-as 64512"
+ios-config-45="    neighbor ${tunnel1_aws_inside_ip_address} timers 10 30 30"
+ios-config-46="    neighbor ${tunnel1_aws_inside_ip_address} default-originate"
+ios-config-47="    neighbor ${tunnel1_aws_inside_ip_address} activate"
+ios-config-48="    neighbor ${tunnel1_aws_inside_ip_address} soft-reconfiguration inbound"
+ios-config-49="    network 0.0.0.0"
+ios-config-50="  exit"
+ios-config-51="exit"
+
+ios-config-52="crypto isakmp policy 200"
+ios-config-53="  encryption aes 128"
+ios-config-54="  authentication pre-share"
+ios-config-55="  group 2"
+ios-config-56="  lifetime 28800"
+ios-config-57="  hash sha"
+ios-config-58="exit"
+
+ios-config-59="crypto keyring keyring-${vpn_connection_id}-0"
+ios-config-60="  local-address GigabitEthernet1"
+ios-config-61="  pre-shared-key address ${tunnel2_aws_output_ip_address} key ${tunnel2_preshared_key}"
+ios-config-62="exit"
+
+ios-config-63="crypto isakmp profile isakmp-${vpn_connection_id}-0"
+ios-config-64="  local-address GigabitEthernet1"
+ios-config-65="  match identity address ${tunnel2_aws_output_ip_address}"
+ios-config-66="  keyring keyring-${vpn_connection_id}-0"
+ios-config-67="exit"
+
+
+ios-config-68="crypto ipsec transform-set ipsec-prop-${vpn_connection_id}-0 esp-aes 128 esp-sha-hmac"
+ios-config-69="  mode tunnel"
+ios-config-70="exit"
+
+
+ios-config-71="crypto ipsec profile ipsec-${vpn_connection_id}-0"
+ios-config-72="  set pfs group2"
+ios-config-73="  set security-association lifetime seconds 3600"
+ios-config-74="  set transform-set ipsec-prop-${vpn_connection_id}-0"
+ios-config-75="exit"
+
+
+ios-config-76="crypto ipsec df-bit clear"
+ios-config-77="crypto isakmp keepalive 3600"
+ios-config-78="crypto ipsec security-association replay window-size 128"
+ios-config-79="crypto ipsec fragmentation before-encryption"
+
+
+ios-config-80="interface Tunnel2"
+ios-config-81="  ip address ${tunnel2_cgw_inside_ip_address} 255.255.255.252"
+ios-config-82="  ip virtual-reassembly"
+ios-config-83="  tunnel source GigabitEthernet1"
+ios-config-84="  tunnel destination ${tunnel2_aws_output_ip_address}"
+ios-config-85="  tunnel mode ipsec ipv4"
+ios-config-86="  tunnel protection ipsec profile ipsec-${vpn_connection_id}-0"
+ios-config-87="  ip tcp adjust-mss 1379"
+ios-config-88="  no shutdown"
+ios-config-89="exit"
+
+
+ios-config-90="router bgp 65000"
+ios-config-91="  neighbor ${tunnel2_aws_inside_ip_address} remote-as 64512"
+ios-config-92="  neighbor ${tunnel2_aws_inside_ip_address} activate"
+ios-config-93="  neighbor ${tunnel2_aws_inside_ip_address} timers 10 30 30"
+ios-config-94="  address-family ipv4 unicast"
+ios-config-95="    neighbor ${tunnel2_aws_inside_ip_address} remote-as 64512"
+ios-config-96="    neighbor ${tunnel2_aws_inside_ip_address} timers 10 30 30"
+ios-config-97="    neighbor ${tunnel2_aws_inside_ip_address} default-originate"
+ios-config-98="    neighbor ${tunnel2_aws_inside_ip_address} activate"
+ios-config-99="    neighbor ${tunnel2_aws_inside_ip_address} soft-reconfiguration inbound"
+ios-config-100="    network 0.0.0.0"
+ios-config-101="  exit"
+ios-config-102="exit"
